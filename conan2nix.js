@@ -325,7 +325,7 @@ return `\
 `;
 }).join('')}\
     metadata-json = writeText "metadata.json" ''
-${fs.readFileSync(`${process.env.HOME}/.conan/data/${nvuc}/metadata.json`, 'utf8')}
+      ${fs.readFileSync(`${process.env.HOME}/.conan/data/${nvuc}/metadata.json`, 'utf8')}
     '';
     srcs = [${fileList.filter(f => f.download).map(file => file.nixName).join(' ')} metadata-json];
     unpackPhase = "true"; # dont unpack (return true)

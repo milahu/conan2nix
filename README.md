@@ -25,7 +25,7 @@ https://github.com/NixOS/nixpkgs/issues/94555
     conan_package-tgz-2 = fetchurl { url = "${url-package}/conan_package.tgz"; sha256 = "3938a658f83abc2360512d48dd7630f8f3ce89267bec16f282cf165240fcf8e2"; };
     conanmanifest-txt-4 = fetchurl { url = "${url-package}/conanmanifest.txt"; sha256 = "48636fbfafad647762efd3779a5b856f5ee88ad74199df9e3a3fc81a89ecad94"; };
     metadata-json = writeText "metadata.json" ''
-{"recipe": {"revision": "b2d602ea9f45c5bb738956d0f7aafa3d", "remote": "conan-center", "properties": {}, "checksums": {"conan_export.tgz": {"md5": "8a0c57a283c2ab579e676b2bc2ee6565", "sha1": "51776f21a4bc3ed9177d8663e24907efe3583ea7"}, "conanmanifest.txt": {"md5": "a4997bb29975190163371a3f81543159", "sha1": "debdb80c399f5f5d4a33b60bc2a80bddc982e42f"}, "conanfile.py": {"md5": "74addcc109f4e606abf57d75590d4540", "sha1": "a7afe538be9b315a4db92a9d7ea22921584531b8"}}}, "packages": {}}
+      {"recipe": {"revision": "b2d602ea9f45c5bb738956d0f7aafa3d", "remote": "conan-center", "properties": {}, "checksums": {"conan_export.tgz": {"md5": "8a0c57a283c2ab579e676b2bc2ee6565", "sha1": "51776f21a4bc3ed9177d8663e24907efe3583ea7"}, "conanmanifest.txt": {"md5": "a4997bb29975190163371a3f81543159", "sha1": "debdb80c399f5f5d4a33b60bc2a80bddc982e42f"}, "conanfile.py": {"md5": "74addcc109f4e606abf57d75590d4540", "sha1": "a7afe538be9b315a4db92a9d7ea22921584531b8"}}}, "packages": {}}
     '';
     srcs = [ metadata-json];
     unpackPhase = "true"; # dont unpack (return true)
