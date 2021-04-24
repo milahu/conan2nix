@@ -9,7 +9,7 @@ https://github.com/NixOS/nixpkgs/issues/94555
 ```nix
 { stdenv, fetchurl, writeText }: {
   "abseil/20200923.3" =
-  with
+  let
     url-base = "https://conan.bintray.com/v2/conans/abseil/20200923.3/_/_/revisions/b2d602ea9f45c5bb738956d0f7aafa3d";
     url-export = "${url-base}/files";
     url-package = "${url-base}/packages/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56/revisions/d65ce147e5eacfc4eb61c65f3c29744b/files";
