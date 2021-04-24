@@ -7,6 +7,8 @@ https://github.com/NixOS/nixpkgs/issues/94555
 ## sample output
 
 ```nix
+#! nix-build -E 'with import <nixpkgs> { }; (callPackage ./test.nix {})."abseil/20200923.3"'
+
 { stdenv, fetchurl, writeText }: {
   "abseil/20200923.3" =
   let
@@ -44,7 +46,7 @@ https://github.com/NixOS/nixpkgs/issues/94555
       mkdir -p $out/$path/dl/pkg/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56
       cp ${conan_package-tgz} $out/$path/dl/pkg/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56/conan_package.tgz
 
-      mkdir -p $out/$path/export
+      mkdir -p $out/$path/package/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56
       cp ${conaninfo-txt} $out/$path/package/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56/conaninfo.txt
       cp ${conanmanifest-txt-2} $out/$path/package/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56/conanmanifest.txt
 

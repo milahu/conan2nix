@@ -349,7 +349,7 @@ return `\
         return `cp \${${file.nixName}} \$out/\$path/dl/pkg/${dep.id}/${file.name}`;
       }).join('\n      ')}
 
-      mkdir -p \$out/\$path/export
+      mkdir -p \$out/\$path/package/${dep.id}
       ${fileList.filter(f => f.scope == 'package' && f.name.endsWith('.tgz') == false).map(file => {
         return `cp \${${file.nixName}} \$out/\$path/package/${dep.id}/${file.name}`;
       }).join('\n      ')}
