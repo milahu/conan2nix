@@ -19,11 +19,11 @@ https://github.com/NixOS/nixpkgs/issues/94555
     version = "20200923.3-b2d602ea9f45c5bb738956d0f7aafa3d";
     conan_export-tgz = fetchurl { url = "${url-export}/conan_export.tgz"; sha256 = "1d770344954aadff19f12e3cd1be3ae687b3ed8d27c6d14a669caf554551e965"; };
     conan_sources-tgz = fetchurl { url = "${url-export}/conan_sources.tgz"; sha256 = "540293634a3b583996bd6e7fbff83c5a793e28fb463555f1119eefb094844c13"; };
-    conanmanifest-txt-3 = fetchurl { url = "${url-export}/conanmanifest.txt"; sha256 = "33fc4986b58fadc72f420b1c025cdfb456446460dbfecc90fcd5267bbd6e9c6d"; };
-    conanfile-py-2 = fetchurl { url = "${url-export}/conanfile.py"; sha256 = "57fc8d524fd61b75a619534d9d700ae00d056d76a7b2187fb909fe96dab8f314"; };
-    conaninfo-txt-2 = fetchurl { url = "${url-package}/conaninfo.txt"; sha256 = "2bd09438aeaed51559486d928d15f9929ddb7bfd87ca7d8a40694ae2afad4f1d"; };
-    conan_package-tgz-2 = fetchurl { url = "${url-package}/conan_package.tgz"; sha256 = "3938a658f83abc2360512d48dd7630f8f3ce89267bec16f282cf165240fcf8e2"; };
-    conanmanifest-txt-4 = fetchurl { url = "${url-package}/conanmanifest.txt"; sha256 = "48636fbfafad647762efd3779a5b856f5ee88ad74199df9e3a3fc81a89ecad94"; };
+    conanmanifest-txt = fetchurl { url = "${url-export}/conanmanifest.txt"; sha256 = "33fc4986b58fadc72f420b1c025cdfb456446460dbfecc90fcd5267bbd6e9c6d"; };
+    conanfile-py = fetchurl { url = "${url-export}/conanfile.py"; sha256 = "57fc8d524fd61b75a619534d9d700ae00d056d76a7b2187fb909fe96dab8f314"; };
+    conaninfo-txt = fetchurl { url = "${url-package}/conaninfo.txt"; sha256 = "2bd09438aeaed51559486d928d15f9929ddb7bfd87ca7d8a40694ae2afad4f1d"; };
+    conan_package-tgz = fetchurl { url = "${url-package}/conan_package.tgz"; sha256 = "3938a658f83abc2360512d48dd7630f8f3ce89267bec16f282cf165240fcf8e2"; };
+    conanmanifest-txt-2 = fetchurl { url = "${url-package}/conanmanifest.txt"; sha256 = "48636fbfafad647762efd3779a5b856f5ee88ad74199df9e3a3fc81a89ecad94"; };
     metadata-json = writeText "metadata.json" ''
       {"recipe": {"revision": "b2d602ea9f45c5bb738956d0f7aafa3d", "remote": "conan-center", "properties": {}, "checksums": {"conan_export.tgz": {"md5": "8a0c57a283c2ab579e676b2bc2ee6565", "sha1": "51776f21a4bc3ed9177d8663e24907efe3583ea7"}, "conanmanifest.txt": {"md5": "a4997bb29975190163371a3f81543159", "sha1": "debdb80c399f5f5d4a33b60bc2a80bddc982e42f"}, "conanfile.py": {"md5": "74addcc109f4e606abf57d75590d4540", "sha1": "a7afe538be9b315a4db92a9d7ea22921584531b8"}}}, "packages": {}}
     '';
@@ -38,24 +38,24 @@ https://github.com/NixOS/nixpkgs/issues/94555
       cp ${conan_sources-tgz} $out/$path/dl/export/conan_sources.tgz
 
       mkdir -p $out/$path/export
-      cp ${conanmanifest-txt-3} $out/$path/export/conanmanifest.txt
-      cp ${conanfile-py-2} $out/$path/export/conanfile.py
+      cp ${conanmanifest-txt} $out/$path/export/conanmanifest.txt
+      cp ${conanfile-py} $out/$path/export/conanfile.py
 
       mkdir -p $out/$path/dl/pkg/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56
-      cp ${conan_package-tgz-2} $out/$path/dl/pkg/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56/conan_package.tgz
+      cp ${conan_package-tgz} $out/$path/dl/pkg/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56/conan_package.tgz
 
       mkdir -p $out/$path/export
-      cp ${conaninfo-txt-2} $out/$path/package/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56/conaninfo.txt
-      cp ${conanmanifest-txt-4} $out/$path/package/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56/conanmanifest.txt
+      cp ${conaninfo-txt} $out/$path/package/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56/conaninfo.txt
+      cp ${conanmanifest-txt-2} $out/$path/package/b911f48570f9bb2902d9e83b2b9ebf9d376c8c56/conanmanifest.txt
 
       # TODO does conan require the metadata.json file? its created by conan ...
       cp ${metadata-json} $out/$path/metadata.json
     '';
 
     # TODO move to meta
-    license = "Apache-2.0";
-    homepage = "https://github.com/abseil/abseil-cpp";
-    url = "https://github.com/conan-io/conan-center-index";
+    license = "Apache-2.0"; # TODO convert to nix license format
+    homepage = "https://github.com/abseil/abseil-cpp"; # TODO skip if empty
+    url = "https://github.com/conan-io/conan-center-index"; # TODO skip if empty
   };
 }
 ```

@@ -74,7 +74,8 @@ const capitalize = (s) => {
 const camelCase = s => s.split(/[._/-]/).map((part, idx) => (idx == 0) ? part : capitalize(part)).join('')
 
 // avoid collisions
-const nixNamesUsed = new Set();
+// TODO add protected names from the stdenv.mkDerivation scope
+let nixNamesUsed = new Set();
 nixNamesUsed.add('fooBar'); // TODO add names
 const nixNameOf = path => {
   const base = path.replace(/[./]/g, '-');
@@ -373,6 +374,9 @@ console.log(`:nixFragment for ${graphNode.reference}`)
 
 numDone++;
 if (!processAllDeps || numDone == maxDone) break;
+
+nixNamesUsed = new Set(); // reset after each branchNode
+// TODO add protected names from the stdenv.mkDerivation scope
 
 }
 
