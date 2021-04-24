@@ -1,0 +1,16 @@
+{
+  "name": "conan2nix",
+  "version": "0.0.1",
+  "description": "convert conan requirements to nix expressions. similar to cargo2nix, cabal2nix, etc.",
+  "main": "conan2nix.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["nixos", "nix", "nixpkgs", "conan", "conan.io", "c++", "cpp", "c", "clang", "convert", "dependencies", "requirements", "import"],
+  "author": "milahu",
+  "license": "CC0-1.0",
+  "dependencies": {
+    "node-fetch": "*"
+  },
+  "homepage": "https://github.com/milahu/conan2nix"
+}
