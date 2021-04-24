@@ -303,7 +303,7 @@ for (const dep of conanGraph) { // dep: dependecy, recipe, ...
 
 const nixFragment = `
   "${dep.reference}" =
-  with
+  let
     url-base = "${remoteFilesUrl.base}";
     url-export = "\${url-base}${remoteFilesUrl.exportSuffix}";
     url-package = "\${url-base}${remoteFilesUrl.packageSuffix}";
