@@ -169,7 +169,8 @@ for (const dep of conanGraph) { // dep: dependecy, recipe, ...
 
 
   // debug
-  if (pname != 'freetype-gl') continue;
+  //if (pname != 'freetype-gl') continue;
+  if (pname != 'abseil') continue;
 /* TODO restore
   if (fs.existsSync(outputFilePath)) {
     console.log(`exists: ${outputFilePath} -> skip`)
@@ -262,15 +263,16 @@ for (const dep of conanGraph) { // dep: dependecy, recipe, ...
         // Content-Length: 101676
         // X-Checksum-Sha2: 207cb881aff65e7f71f561bdfb632882724e0811ed2b2721b90ab5eeda4cb3aa
         sizeRemote = response.headers.get('content-length');
-        sha256Remote = response.headers.get('x-checksum-sha2'); // single source of truth (trust the server)
+        sha256Remote = response.headers.get('x-checksum-sha2');
+        md5Remote = response.headers.get('x-checksum-md5');
 
         // TODO also use other checksums, for example x-checksum-sha1
 
         etag = response.headers.get('etag');
-        md5Remote = etag?.length == 32 ? etag : null;
+        if (!md5Remote) md5Remote = etag?.length == 32 ? etag : null;
         if (!sha256Remote) sha256Remote = etag?.length == 64 ? etag : null;
 
-        checksums.sha256 = sha256Remote;
+        if (sha256Remote) checksums.sha256 = sha256Remote;
         const sizeLocal = fs.statSync(localPath).size;
         if (sizeRemote != sizeLocal) {
           console.log(`${graphNode._pname} ${scope}: size mismatch -> re-download ${localPath}`);
@@ -303,9 +305,11 @@ for (const dep of conanGraph) { // dep: dependecy, recipe, ...
 
         if (!sizeRemote) sizeRemote = response.headers.get('content-length');
 
-        if (!sha256Remote) sha256Remote = response.headers.get('x-checksum-sha2'); // single source of truth (trust the server)
+        if (!sha256Remote) sha256Remote = response.headers.get('x-checksum-sha2');
+        if (!md5Remote) md5Remote = response.headers.get('x-checksum-md5');
+
         etag = response.headers.get('etag');
-        md5Remote = etag?.length == 32 ? etag : null;
+        if (!md5Remote) md5Remote = etag?.length == 32 ? etag : null;
         if (!sha256Remote) sha256Remote = etag?.length == 64 ? etag : null;
 
         content = isBinary ? await response.buffer() : await response.text();
@@ -417,7 +421,7 @@ stdenv.mkDerivation rec {
   version = "${version}-${dep.revision}";
   conan-reference = "${dep.reference}";
 ${fileList.map(file => `\
-    ${file.nixName} = fetchurl { url = "$\{url-${file.scope}}/${file.name}"; sha256 = "${file.sha256}"; };
+  ${file.nixName} = fetchurl { url = "$\{url-${file.scope}}/${file.name}"; sha256 = "${file.sha256}"; };
 `).join('')}\
   metadata-json = writeText "metadata.json" ''
     ${fs.readFileSync(`${process.env.HOME}/.conan/data/${nvuc}/metadata.json`, 'utf8')}
