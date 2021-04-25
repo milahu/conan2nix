@@ -20,6 +20,13 @@
 # ImportError: cannot import name 'python_requires' from 'conans' (/home/user/.local/lib/python3.8/site-packages/conans/__init__.py)
 # conans.python_requires() is deprecated https://docs.conan.io/en/latest/extending/python_requires.html
 
+# status: currently fails on most conanfile.py files
+# ModuleNotFoundError: No module named 'llvmpackage'
+# ModuleNotFoundError: No module named 'conanfile_base'
+# ImportError: cannot import name 'python_requires' from 'conans' (/home/user/.local/lib/python3.8/site-packages/conans/__init__.py)
+# AttributeError: 'NoneType' object has no attribute 'st_mode'
+# ...
+
 import sys, importlib.util, ast, shlex, re
 import os, conans, conans.tools, shutil # used in some conanfile.py (incomplete!)
 
@@ -38,16 +45,21 @@ print("# %s" % conanfile_path)
 # maybe use the AST to find all function calls in source() -> patch all these functions
 # problem: some function-callers expect a return value
 
+# args is empty when conanfile.py calls
+# tools.get(**self.conan_data["sources"][self.version])
+# like in ~/.conan/data/libunwind/1.5.0/_/_/export/conanfile.py
 get_files = list()
 def fake_get(*args, **kwargs):
   print("fake conans.tools.get %s %s" % (repr(args), repr(kwargs)))
-  get_files.append(dict(url=args[0], **kwargs))
+  if len(args) > 0:
+    get_files.append(dict(url=args[0], **kwargs))
 conans.tools.get = fake_get
 
 # /home/user/.conan/data/Outcome/3dae433e/orbitdeps/stable/export/conanfile.py
 def fake_download(*args, **kwargs):
   print("fake conans.tools.download %s %s" % (repr(args), repr(kwargs)))
-  get_files.append(dict(url=args[0], **kwargs))
+  if len(args) > 0:
+    get_files.append(dict(url=args[0], **kwargs))
 conans.tools.download = fake_download
 
 # /home/user/.conan/data/Outcome/3dae433e/orbitdeps/stable/export/conanfile.py
@@ -87,6 +99,8 @@ conans.tools.unzip = fake_unzip
 
 def fake_init(self, *args, **kwargs): # NOTE we need the `self` argument
   print("fake conans.ConanFile.__init__ %s %s" % (repr(args), repr(kwargs)))
+  self.conan_data = dict(sources=dict(fakeVersion=dict()))
+  self.version = "fakeVersion"
 conans.ConanFile.__init__ = fake_init
 
 cmd_history = []
