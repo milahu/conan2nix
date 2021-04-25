@@ -119,8 +119,10 @@ conans.tools.unzip = fake_unzip
 
 def fake_init(self, *args, **kwargs): # NOTE we need the `self` argument
   print("fake conans.ConanFile.__init__ %s %s" % (repr(args), repr(kwargs)))
-  self.conan_data = dict(sources=dict(fakeVersion=dict()))
+  self.conan_data = dict(sources=dict())
+  #self.conan_data = dict(sources=dict(fakeVersion=dict()))
   #self.version = "fakeVersion"
+  # some conanfile.py fails when version == None
 conans.ConanFile.__init__ = fake_init
 
 cmd_history = []

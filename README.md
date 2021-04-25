@@ -72,7 +72,9 @@ nix-build -E 'with import <nixpkgs> { }; callPackage ./nix-conan-cache/abseil/20
 
 ## conanfile analyzer
 
-tool for dynamic analysis of `conanfile.py` files
+`conanfile-analyze.py` is a tool for dynamic analysis of `conanfile.py` files
+
+we want to extract the source URLs, so we can preload the source files and run `conan install --build missing` offline
 
 ```txt
 ./conanfile-analyze.py ~/.conan/data/freetype-gl/79b03d9/orbitdeps/stable/export/conanfile.py
