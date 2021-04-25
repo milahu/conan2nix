@@ -74,7 +74,7 @@ nix-build -E 'with import <nixpkgs> { }; callPackage ./nix-conan-cache/abseil/20
 
 `conanfile-analyze.py` is a tool for dynamic analysis of `conanfile.py` files
 
-we want to extract the source URLs, so we can preload the source files and run `conan install --build missing` offline
+we want to extract the source URLs, so we can preload the source files and run conan offline with `conan install --build missing` offline
 
 ```txt
 ./conanfile-analyze.py ~/.conan/data/freetype-gl/79b03d9/orbitdeps/stable/export/conanfile.py
@@ -95,6 +95,18 @@ $ git checkout 79b03d9
 git_repos = [{'url': 'https://github.com/rougier/freetype-gl.git', 'name': 'freetype-gl', 'dir': 'freetype-gl', 'owner': 'rougier', 'rev': '79b03d9'}]
 get_files = []
 ```
+
+in this example, the download link would be `https://api.github.com/repos/rougier/freetype-gl/tarball/79b03d9`
+
+in nix we can use
+
+```nix
+{
+  src = fetchFromGitHub {
+    owner = "rougier"; repo = "freetype-gl"; rev = "79b03d9";
+    sha256 = "0000000000000000000000000000000000000000000000000000"; # TODO fix checksum
+  };
+}
 
 ## related
 
