@@ -70,6 +70,30 @@ build:
 nix-build -E 'with import <nixpkgs> { }; callPackage ./nix-conan-cache/abseil/20200923.3/_/_/export.nix {}'
 ```
 
+## conanfile analyzer
+
+tool for dynamic analysis of `conanfile.py` files
+
+```txt
+./conanfile-analyze.py ~/.conan/data/freetype-gl/79b03d9/orbitdeps/stable/export/conanfile.py
+# /home/user/.conan/data/freetype-gl/79b03d9/orbitdeps/stable/export/conanfile.py
+found: class FreetypeglConan (ConanFile)
+fake conans.ConanFile.__init__ () {}
+
+run conanfile.py source()
+fake conans.ConanFile.run ('git clone https://github.com/rougier/freetype-gl.git',) {}
+fake conans.ConanFile.run ('git checkout 79b03d9',) {'cwd': 'freetype-gl/'}
+fake conans.tools.patch () {'base_path': 'freetype-gl/', 'patch_file': 'patches/001-patch.diff'}
+done conanfile.py source()
+
+cmd_history:
+$ git clone https://github.com/rougier/freetype-gl.git
+$ git checkout 79b03d9
+
+git_repos = [{'url': 'https://github.com/rougier/freetype-gl.git', 'name': 'freetype-gl', 'dir': 'freetype-gl', 'owner': 'rougier', 'rev': '79b03d9'}]
+get_files = []
+```
+
 ## related
 
 https://github.com/conan-io/conan/issues/4668 # Cache Downloads

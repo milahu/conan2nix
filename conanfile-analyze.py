@@ -1,5 +1,25 @@
 #!/usr/bin/env python3.8
 
+"""
+find ~/.conan/data/ -name conanfile.py -exec grep -H 'git clone' '{}' \;
+
+./conanfile-analyze.py /home/user/.conan/data/libunwindstack/80a734f14/orbitdeps/stable/export/conanfile.py
+# /home/user/.conan/data/libunwindstack/80a734f14/orbitdeps/stable/export/conanfile.py
+found: class LibunwindstackConan (ConanFile)
+fake conans.ConanFile.__init__ () {}
+
+run conanfile.py source()
+fake conans.ConanFile.run ('git clone https://android.googlesource.com/platform/system/core.git android-core',) {}
+Traceback (most recent call last):
+  File "./conanfile-analyze.py", line 201, in <module>
+    conanfile_instance.source()
+  File "/home/user/.conan/data/libunwindstack/80a734f14/orbitdeps/stable/export/conanfile.py", line 22, in source
+    self.run("git clone https://android.googlesource.com/platform/system/core.git android-core")
+  File "./conanfile-analyze.py", line 128, in fake_run
+    git_repos[-1]['owner'] = git_repos[-1]['url'].split("/")[-2]
+IndexError: list index out of range
+"""
+
 # dynamic analysis of conanfile.py to find all source URLs
 # license CC0-1.0
 
@@ -100,7 +120,7 @@ conans.tools.unzip = fake_unzip
 def fake_init(self, *args, **kwargs): # NOTE we need the `self` argument
   print("fake conans.ConanFile.__init__ %s %s" % (repr(args), repr(kwargs)))
   self.conan_data = dict(sources=dict(fakeVersion=dict()))
-  self.version = "fakeVersion"
+  #self.version = "fakeVersion"
 conans.ConanFile.__init__ = fake_init
 
 cmd_history = []
