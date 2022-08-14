@@ -4,6 +4,10 @@
 
 https://github.com/NixOS/nixpkgs/issues/94555
 
+## status
+
+proof of concept
+
 ## sample output
 
 `nix-conan-cache/abseil/20200923.3/_/_/export.nix`
